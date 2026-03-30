@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -7,6 +8,9 @@ public class WebClient : MonoBehaviour
 {
     public string baseUrl;
     private string token;
+
+    private TMP_InputField username;
+    private TMP_InputField password;
 
     public void SetToken(string token)
     {
