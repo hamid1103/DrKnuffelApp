@@ -3,9 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class switchscenes : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject PathScreen;
+    public GameObject StilLiggenGameScherm;
     public void switchsceneToMRIStilLiggen()
     {
-        SceneManager.LoadScene("HamidStillLiggenMiniGame");
+        StilLiggenGameScherm.SetActive(true);
+        PathScreen.SetActive(false);
     }
 }
