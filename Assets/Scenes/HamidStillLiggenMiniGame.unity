@@ -663,7 +663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &625908509
 RectTransform:
   m_ObjectHideFlags: 0
@@ -712,6 +712,8 @@ PlayableDirector:
     value: {fileID: 63239641}
   - key: {fileID: -8956756253669487548, guid: d265faa5d0af8b09e9099c227df2ad45, type: 2}
     value: {fileID: 63239646}
+  - key: {fileID: 9206814007852643829, guid: d265faa5d0af8b09e9099c227df2ad45, type: 2}
+    value: {fileID: 1500374806}
   m_ExposedReferences:
     m_References: []
 --- !u!82 &625908511
@@ -859,13 +861,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2540606907956400241, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2540606907956400241, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 18.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2606802099890646765, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 2606802099890646765, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 18.87
+      objectReference: {fileID: 0}
     - target: {fileID: 2747989549994933773, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
       propertyPath: m_Name
       value: Confetti
       objectReference: {fileID: 0}
     - target: {fileID: 2747989549994933773, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8996522987166229016, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 8996522987166229016, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 19.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020055656894584457, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020055656894584457, guid: ecb354cc26a6e904e9402f37bd2bef3a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 18.96
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1353,7 +1387,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
