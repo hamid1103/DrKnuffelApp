@@ -7,6 +7,8 @@ using UnityEngine.Timeline;
 public class GameManager : MonoBehaviour
 {
     public string UserName = "";
+
+    public GameObject BeginnerArrowIndicators;
     public GameObject PathScreen;
     public GameObject NextScreen;
     public GameObject CollectionLogin;
@@ -16,7 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject WelcomeScreenActual;
     public TMP_InputField NameInputField;
 
-    public LocalSave LocalSaveData = new();
+    [SerializeField]public LocalSave LocalSaveData = new();
     
     private SignalReceiver _signalReceiver;
     
@@ -26,6 +28,10 @@ public class GameManager : MonoBehaviour
         _signalReceiver = gameObject.GetComponent<SignalReceiver>();
         UserName = PlayerPrefs.GetString("UserName");
         LoadSave();
+        if (!LocalSaveData.CompletedSteps.Contains(0))
+        {
+            BeginnerArrowIndicators.SetActive(true);
+        }
     }
     
     public void ShowNameInput()
