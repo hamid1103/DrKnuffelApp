@@ -2248,13 +2248,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 319755627}
+  - component: {fileID: 319755628}
   m_Layer: 0
   m_Name: Path
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &319755627
 Transform:
   m_ObjectHideFlags: 0
@@ -2271,6 +2272,25 @@ Transform:
   - {fileID: 1621986276}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!320 &319755628
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319755626}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: f731019730badd98dabac6d8215f8473, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -7323228083869608729, guid: f731019730badd98dabac6d8215f8473, type: 2}
+    value: {fileID: 449077908}
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &345087512
 GameObject:
   m_ObjectHideFlags: 0
@@ -12669,7 +12689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UserName: 
-  NextScreen: {fileID: 0}
+  NextScreen: {fileID: 319755626}
   NameInputField: {fileID: 1549745795}
 --- !u!4 &1896771607
 Transform:
