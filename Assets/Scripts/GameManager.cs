@@ -7,7 +7,9 @@ using UnityEngine.Timeline;
 public class GameManager : MonoBehaviour
 {
     public string UserName = "";
-
+    public User user;
+    public bool LoggedIn = false;
+    
     public GameObject BeginnerArrowIndicators;
     public GameObject PathScreen;
     public GameObject NextScreen;
