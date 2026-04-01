@@ -37,10 +37,6 @@ namespace DefaultNamespace
                     {
                         splits[i] = $"{_gameManager.UserName},";
                     }
-                    /*else if ()
-                    {
-                        
-                    }*/
                     else
                     {
                         splits[i] = $"{_gameManager.UserName}";
