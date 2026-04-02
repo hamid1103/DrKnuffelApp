@@ -17,12 +17,6 @@ namespace DefaultNamespace
         void Start()
         {
             //For testing purposes------
-#if UNITY_EDITOR
-            if (EditorApplication.isPlaying)
-            {
-                testingPurposes = true;
-            }
-#endif
             if ((testingPurposes || Debug.isDebugBuild) && string.IsNullOrEmpty(_gameManager.userData.AppointmentDate))
             {
                 _gameManager.userData = new UserData();
