@@ -12,13 +12,22 @@ public class ExampleApp : MonoBehaviour
 
     public TMP_InputField REG_username;
     public TMP_InputField REG_password;
-    public TMP_InputField doctor;
-    public TMP_InputField type_treatment;
-    public TMP_InputField date_treatment;
 
     [Header("Dependencies")]
     public UserApiClient userApiClient;
+    public UserDataApiClient userDataApiClient;
 
+    [Header("Game objects")]
+    public GameObject signUpPanel;
+    public GameObject addUserDataPanel;
+    public GameObject LoginScreen;
+    public GameObject pathScreen;
+
+    [Header("UserData Input Fields")]
+    public TMP_InputField doctorNameInput;
+    public TMP_InputField appointmentTypeInput;
+    public TMP_InputField appointmentDateInput;
+    public TMP_InputField userAgeInput;
 
 
     #region Login
@@ -28,15 +37,16 @@ public class ExampleApp : MonoBehaviour
     {
         user.Email = REG_username.text;
         user.Password = REG_password.text;
-        user.DoctorName = doctor.text;
-        user.AppointmentType = type_treatment.text;
-        user.AppointmentDate = date_treatment.text;
         IWebRequestReponse webRequestResponse = await userApiClient.Register(user);
 
         switch (webRequestResponse)
         {
             case WebRequestData<string> dataResponse:
                 Debug.Log("Register succes!");
+                signUpPanel.SetActive(false);
+                LoginScreen.SetActive(true);
+                addUserDataPanel.SetActive(false);
+                pathScreen.SetActive(false);
                 // TODO: Handle succes scenario;
                 break;
             case WebRequestError errorResponse:
@@ -60,6 +70,8 @@ public class ExampleApp : MonoBehaviour
         {
             case WebRequestData<string> dataResponse:
                 Debug.Log("Login succes!");
+                LoginScreen.SetActive(false);
+                pathScreen.SetActive(true);
                 // TODO: Todo handle succes scenario.
                 break;
             case WebRequestError errorResponse:
@@ -69,6 +81,77 @@ public class ExampleApp : MonoBehaviour
                 break;
             default:
                 throw new NotImplementedException("No implementation for webRequestResponse of class: " + webRequestResponse.GetType());
+        }
+    }
+
+    private bool IsValidDate(string input, out string formattedDate)
+    {
+        formattedDate = "";
+        input = input.Replace("-", "/");
+
+        if (DateTime.TryParseExact(input, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime result))
+        {
+            formattedDate = result.ToString("yyyy-MM-dd");
+            return true;
+        }
+
+        return false;
+    }
+
+    private UserData CollectUserData()
+    {
+        UserData userData = new UserData();
+        userData.DoctorName = doctorNameInput.text;
+        userData.AppointmentType = appointmentTypeInput.text;
+
+        if (IsValidDate(appointmentDateInput.text, out string formattedDate))
+        {
+            userData.AppointmentDate = formattedDate;
+        }
+        else
+        {
+            Debug.LogError("Ongeldige datum! Gebruik formaat: dd/MM/yyyy");
+            return null;
+        }
+
+        if (int.TryParse(userAgeInput.text, out int age))
+        {
+            userData.UserAge = age;
+        }
+        else
+        {
+            userData.UserAge = 0;
+        }
+        return userData;
+    }
+
+    public async void SaveUserData()
+    {
+        UserData newUserData = CollectUserData();
+
+        if (newUserData == null)
+        {
+            Debug.LogError("UserData ongeldig, request gestopt!");
+            return;
+        }
+
+        IWebRequestReponse response = await userDataApiClient.CreateUserData(newUserData);
+
+        switch (response)
+        {
+            case WebRequestData<UserData> successResponse:
+                Debug.Log("UserData succesvol opgeslagen!");
+                addUserDataPanel.SetActive(false);
+                pathScreen.SetActive(true);
+                // TODO: Navigatie of succesmelding tonen
+                break;
+            case WebRequestError errorResponse:
+                Debug.LogError("Error bij opslaan UserData: " + errorResponse.ErrorMessage);
+                // TODO: Foutmelding tonen
+                break;
+            default:
+                Debug.LogError("Onbekende response type bij UserData opslaan.");
+                break;
         }
     }
 
