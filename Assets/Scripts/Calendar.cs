@@ -48,7 +48,14 @@ namespace DefaultNamespace
                     days = (dateOnly - today).TotalDays;
                 }
 
+                if (days < 2)
+                {
+                text.text = $"Afspraak \n Over 1 dag";     
+                }
+                else
+                {
                 text.text = $"Afspraak \n Over {days} dagen";     
+                }
             }
             else
             {
