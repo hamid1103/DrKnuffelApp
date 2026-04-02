@@ -11,6 +11,8 @@ namespace DefaultNamespace
         private GameManager _gameManager;
         private TMP_Text _text;
         public string CurrentString;
+        public List<string> script;
+        public int ScriptIndex = 0;
         
         void Start()
         {
@@ -19,9 +21,23 @@ namespace DefaultNamespace
             _text.text = CurrentString;
         }
 
+        public void ResetScriptIndex()
+        {
+            ScriptIndex = 0;
+        }
+
+        public void AdvanceScript(int amount = 1)
+        {
+            ScriptIndex += amount;
+            if (ScriptIndex < script.Count)
+            {
+                SetText(script[ScriptIndex]);
+            }
+        }
+        
         public void SetText(string input)
         {
-            
+            _text.text = ParseString(input);
         }
 
         private string ParseString(string input)
@@ -33,6 +49,7 @@ namespace DefaultNamespace
                 string text = splits[i];
                 if (text.Contains("{{User}}"))
                 {
+                    //No need to do complex string manipulation right now. Don't have the time for that.
                     if (text.Last() == Convert.ToChar(","))
                     {
                         splits[i] = $"{_gameManager.UserName},";
@@ -43,7 +60,7 @@ namespace DefaultNamespace
                     }
                 }
             }
-            return "";
+            return string.Join(" ", splits);
         }
     }
 }
