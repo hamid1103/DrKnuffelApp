@@ -84,12 +84,35 @@ public class ExampleApp : MonoBehaviour
         }
     }
 
+    private bool IsValidDate(string input, out string formattedDate)
+    {
+        formattedDate = "";
+        input = input.Replace("-", "/");
+
+        if (DateTime.TryParseExact(input, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime result))
+        {
+            formattedDate = result.ToString("yyyy-MM-dd");
+            return true;
+        }
+
+        return false;
+    }
+
     private UserData CollectUserData()
     {
         UserData userData = new UserData();
         userData.DoctorName = doctorNameInput.text;
         userData.AppointmentType = appointmentTypeInput.text;
-        userData.AppointmentDate = appointmentDateInput.text;
+
+        if (IsValidDate(appointmentDateInput.text, out string formattedDate))
+        {
+            userData.AppointmentDate = formattedDate;
+        }
+        else
+        {
+            Debug.LogError("Ongeldige datum! Gebruik formaat: dd/MM/yyyy");
+            return null;
+        }
 
         if (int.TryParse(userAgeInput.text, out int age))
         {
@@ -105,6 +128,13 @@ public class ExampleApp : MonoBehaviour
     public async void SaveUserData()
     {
         UserData newUserData = CollectUserData();
+
+        if (newUserData == null)
+        {
+            Debug.LogError("UserData ongeldig, request gestopt!");
+            return;
+        }
+
         IWebRequestReponse response = await userDataApiClient.CreateUserData(newUserData);
 
         switch (response)
