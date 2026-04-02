@@ -4,7 +4,7 @@ using System;
 using TMPro;
 using UnityEditor;
 
-/*namespace DefaultNamespace
+namespace DefaultNamespace
 {
     public class Calendar : MonoBehaviour
     {
@@ -74,4 +74,4 @@ using UnityEditor;
             }
         }
     }
-}*/
+}
