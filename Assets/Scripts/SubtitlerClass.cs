@@ -17,8 +17,22 @@ namespace DefaultNamespace
         void Start()
         {
             _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            
+            //For development purposes
+            if (string.IsNullOrEmpty(_gameManager.UserName))
+            {
+                _gameManager.UserName = PlayerPrefs.GetString("UserName");
+                if (string.IsNullOrEmpty(_gameManager.UserName))
+                {
+                    _gameManager.UserName = "Klaas";
+                }
+            }
             _text = gameObject.GetComponent<TMP_Text>();
-            _text.text = CurrentString;
+            if (script.Count > 0)
+            {
+                CurrentString = script[ScriptIndex];
+            }
+            SetText(CurrentString);
         }
 
         public void ResetScriptIndex()
@@ -42,25 +56,12 @@ namespace DefaultNamespace
 
         private string ParseString(string input)
         {
-
-            List<string> splits = input.Split().ToList();
-            for (int i = 0; i < splits.Count-1; i++)
+            if (string.IsNullOrEmpty(input))
             {
-                string text = splits[i];
-                if (text.Contains("{{User}}"))
-                {
-                    //No need to do complex string manipulation right now. Don't have the time for that.
-                    if (text.Last() == Convert.ToChar(","))
-                    {
-                        splits[i] = $"{_gameManager.UserName},";
-                    }
-                    else
-                    {
-                        splits[i] = $"{_gameManager.UserName}";
-                    }
-                }
+                return string.Empty;
             }
-            return string.Join(" ", splits);
+
+            return input.Replace("{{User}}", _gameManager.UserName);
         }
     }
 }
