@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public string UserName = "";
     public User user;
+    public UserData userData;
     public bool LoggedIn = false;
     
     public GameObject BeginnerArrowIndicators;
