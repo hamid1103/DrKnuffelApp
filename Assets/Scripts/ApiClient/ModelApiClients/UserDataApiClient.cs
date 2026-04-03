@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Environment2DApiClient : MonoBehaviour
+public class UserDataApiClient : MonoBehaviour
 {
     public WebClient webClient;
 
