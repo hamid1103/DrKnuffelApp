@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     public UserData userData;
     public bool LoggedIn = false;
     
-    public GameObject BeginnerArrowIndicators;
     public GameObject PathScreen;
     public GameObject NextScreen;
     public GameObject CollectionLogin;
@@ -31,10 +30,7 @@ public class GameManager : MonoBehaviour
         _signalReceiver = gameObject.GetComponent<SignalReceiver>();
         UserName = PlayerPrefs.GetString("UserName");
         LoadSave();
-        if (!LocalSaveData.CompletedSteps.Contains(0))
-        {
-            BeginnerArrowIndicators.SetActive(true);
-        }
+        
     }
     
     public void ShowNameInput()
