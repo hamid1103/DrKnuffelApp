@@ -1,16 +1,39 @@
+using DefaultNamespace.Models;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 
 public class UserApiClient : MonoBehaviour
 {
     public WebClient webClient;
 
+    void Start()
+    {
+        string refToken = PlayerPrefs.GetString("RefreshToken");
+        if (!string.IsNullOrEmpty(refToken))
+        {
+            webClient.SetRefreshToken(refToken);
+            Refresh(refToken);
+        }
+    }
+    
     public async Awaitable<IWebRequestReponse> Register(User user)
     {
         string route = "/account/register";
         string data = JsonConvert.SerializeObject(user, JsonHelper.CamelCaseSettings);
 
         return await webClient.SendPostRequest(route, data);
+    }
+
+    public async Awaitable<IWebRequestReponse> Refresh(string token)
+    {
+        RefreshData rd = new RefreshData();
+        rd.RefreshToken = token;
+        string route = "/account/refresh";
+        string data = JsonConvert.SerializeObject(rd);
+
+        IWebRequestReponse reponse = await webClient.SendPostRequest(route, data);
+        return ProcessLoginResponse(reponse);
     }
 
     public async Awaitable<IWebRequestReponse> Login(User user)
@@ -29,7 +52,11 @@ public class UserApiClient : MonoBehaviour
             case WebRequestData<string> data:
                 Debug.Log("Response data raw: " + data.Data);
                 string token = JsonHelper.ExtractToken(data.Data);
+                string refreshToken = JsonHelper.ExtractRefreshToken(data.Data);
                 webClient.SetToken(token);
+                webClient.SetRefreshToken(refreshToken);
+                PlayerPrefs.SetString("RefreshToken",refreshToken);
+                GameObject.Find("GameManager").GetComponent<GameManager>().LoggedIn = true;
                 return new WebRequestData<string>("Succes");
             default:
                 return webRequestResponse;

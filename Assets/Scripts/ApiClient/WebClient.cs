@@ -9,6 +9,7 @@ public class WebClient : MonoBehaviour
 {
     public string baseUrl;
     private string token;
+    private string refreshToken;
 
     private TMP_InputField username;
     private TMP_InputField password;
@@ -16,6 +17,11 @@ public class WebClient : MonoBehaviour
     public void SetToken(string token)
     {
         this.token = token;
+    }
+
+    public void SetRefreshToken(string token)
+    {
+        this.refreshToken = token;
     }
 
     public async Awaitable<IWebRequestReponse> SendGetRequest(string route)
@@ -89,4 +95,11 @@ public class Token
 {
     public string tokenType;
     public string accessToken;
+}
+
+[Serializable]
+public class RefreshToken
+{
+    public string tokenType;
+    public string refreshToken;
 }

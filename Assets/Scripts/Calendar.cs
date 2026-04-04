@@ -3,6 +3,7 @@ using System.Globalization;
 using System;
 using TMPro;
 using UnityEditor;
+using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
@@ -13,20 +14,14 @@ namespace DefaultNamespace
         public TMP_Text text;
         public TMP_Text nameText;
         public bool testingPurposes = false;
+        private Button _button;
 
         void Start()
         {
-            //For testing purposes------
-            if ((testingPurposes || Debug.isDebugBuild) && string.IsNullOrEmpty(_gameManager.userData.AppointmentDate))
+            _button = gameObject.GetComponent<Button>();
+            if (_gameManager.LoggedIn && !string.IsNullOrEmpty(_gameManager.userData.AppointmentDate))
             {
-                _gameManager.userData = new UserData();
-                _gameManager.userData.AppointmentDate = "03/04/2026";
-                _gameManager.LoggedIn = true;
-            }
-            //------For testing purposes
-
-            if (_gameManager.LoggedIn)
-            {
+                _button.interactable = false;
                 //No need for validation, should've been done in the registration page.
                 string input = _gameManager.userData.AppointmentDate ; // DD/MM/YY
 
@@ -44,16 +39,17 @@ namespace DefaultNamespace
 
                 if (days < 2)
                 {
-                text.text = $"Afspraak \n Over 1 dag";     
+                    text.text = $"Afspraak \n Over 1 dag";     
                 }
                 else
                 {
-                text.text = $"Afspraak \n Over {days} dagen";     
+                    text.text = $"Afspraak \n Over {days} dagen";     
                 }
             }
             else
             {
-                text.text = ":D";
+                _button.interactable = true;
+                text.text = "Er is nog niks hier.";
                 nameText.text = "";
             }
            
@@ -65,6 +61,40 @@ namespace DefaultNamespace
             if (string.IsNullOrEmpty(nameText.text) && !string.IsNullOrEmpty(text.text))
             {
                 nameText.text = _gameManager.UserName;
+            }
+            
+            if (_gameManager.LoggedIn)
+            {
+                _button.interactable = false;
+                //No need for validation, should've been done in the registration page.
+                string input = _gameManager.userData.AppointmentDate ; // DD/MM/YY
+
+                if (DateTime.TryParseExact(input, "dd/MM/yyyy",
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.None,
+                        out DateTime result))
+                {
+                    // If you only care about the date:
+                    DateTime dateOnly = result.Date;
+                    DateTime today = DateTime.Today.Date;
+
+                    days = (dateOnly - today).TotalDays;
+                }
+
+                if (days < 2)
+                {
+                    text.text = $"Afspraak \n Over 1 dag";     
+                }
+                else
+                {
+                    text.text = $"Afspraak \n Over {days} dagen";     
+                }
+            }
+            else
+            {
+                _button.interactable = true;
+                text.text = "Er is nog niks hier.";
+                nameText.text = "";
             }
         }
     }

@@ -15,4 +15,10 @@ public static class JsonHelper
         Token token = JsonConvert.DeserializeObject<Token>(data);
         return token.accessToken;
     }
+
+    public static string ExtractRefreshToken(string data)
+    {
+        RefreshToken refreshToken = JsonConvert.DeserializeObject<RefreshToken>(data);
+        return refreshToken.refreshToken;
+    }
 }

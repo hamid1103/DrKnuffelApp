@@ -15,6 +15,8 @@ public class ExampleApp : MonoBehaviour
     public TMP_InputField REG_password;
     public TMP_Text REG_ERRORS;
 
+    public GameManager gameManager;
+    
     [Header("Dependencies")]
     public UserApiClient userApiClient;
     public UserDataApiClient userDataApiClient;
@@ -77,6 +79,7 @@ public class ExampleApp : MonoBehaviour
         {
             case WebRequestData<string> dataResponse:
                 Debug.Log("Login succes!");
+                gameManager.LoggedIn = true;
                 if (ToPath)
                 {
                     LoginScreen.SetActive(false);
@@ -118,6 +121,8 @@ public class ExampleApp : MonoBehaviour
 
         if (IsValidDate(appointmentDateInput.text, out string formattedDate))
         {
+            gameManager.userData.AppointmentDate = appointmentDateInput.text;
+            PlayerPrefs.SetString("AppointmentDate", appointmentDateInput.text);
             userData.AppointmentDate = formattedDate;
         }
         else
@@ -156,7 +161,10 @@ public class ExampleApp : MonoBehaviour
                 addUserDataPanel.SetActive(false);
                 signUpPanel.SetActive(false);
                 pathScreen.SetActive(true);
-                // TODO: Navigatie of succesmelding tonen
+                //TODO: Save UserData Response
+                PlayerPrefs.SetString("UserDataId",successResponse.Data.Id);
+                Debug.Log($"UDId = {successResponse.Data.Id}");
+                gameManager.userData.Id = successResponse.Data.Id;
                 break;
             case WebRequestError errorResponse:
                 Debug.LogError("Error bij opslaan UserData: " + errorResponse.ErrorMessage);

@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour
         _signalReceiver = gameObject.GetComponent<SignalReceiver>();
         UserName = PlayerPrefs.GetString("UserName");
         LoadSave();
-        
+        userData.AppointmentDate = PlayerPrefs.GetString("AppointmentDate");
+        userData.Id = PlayerPrefs.GetString("UserDataId");
     }
     
     public void ShowNameInput()
