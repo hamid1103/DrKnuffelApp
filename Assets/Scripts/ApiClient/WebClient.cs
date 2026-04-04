@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using DefaultNamespace.ApiClient;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -26,6 +27,7 @@ public class WebClient : MonoBehaviour
     public async Awaitable<IWebRequestReponse> SendPostRequest(string route, string data)
     {
         UnityWebRequest webRequest = CreateWebRequest("POST", route, data);
+        webRequest.certificateHandler = new BypassCert();
         return await SendWebRequest(webRequest);
     }
 
