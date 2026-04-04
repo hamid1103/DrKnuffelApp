@@ -46159,7 +46159,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 845226814}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -66336,7 +66336,6 @@ MonoBehaviour:
     AppointmentDate: 
     UserAge: 0
   LoggedIn: 0
-  BeginnerArrowIndicators: {fileID: 3434382}
   PathScreen: {fileID: 319755626}
   NextScreen: {fileID: 319755626}
   CollectionLogin: {fileID: 1137489858}
@@ -105136,6 +105135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StepID: 2
+  arrowIndicator: {fileID: 0}
 --- !u!222 &4281810991297255497
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -105157,6 +105157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StepID: 0
+  arrowIndicator: {fileID: 0}
 --- !u!222 &4281810992569385659
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -105178,6 +105179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StepID: 3
+  arrowIndicator: {fileID: 0}
 --- !u!222 &4281810992962817450
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -105199,6 +105201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StepID: 1
+  arrowIndicator: {fileID: 0}
 --- !u!1 &4372759514669109368
 GameObject:
   m_ObjectHideFlags: 0

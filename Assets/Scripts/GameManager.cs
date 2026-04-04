@@ -70,12 +70,21 @@ public class GameManager : MonoBehaviour
     public void LoadSave()
     {
         string SaveDataString = PlayerPrefs.GetString("saveData");
-        if(!string.IsNullOrEmpty(SaveDataString))
+        if (!string.IsNullOrEmpty(SaveDataString))
+        {
+            Debug.Log($"Loading Save Data. String: {SaveDataString}");
             LocalSaveData = JsonUtility.FromJson<LocalSave>(SaveDataString);
+        }
+        else
+        {
+            Debug.Log($"Failure. Data string is empty.");
+        }
     }
 
     public void StoreSaveData()
     {
+        Debug.Log($"Present steps in list: {string.Join(", ", LocalSaveData.CompletedSteps)}");
+        Debug.Log($"Saving data string: {JsonUtility.ToJson(LocalSaveData)}");
         PlayerPrefs.SetString("saveData",JsonUtility.ToJson(LocalSaveData));
     }
     
