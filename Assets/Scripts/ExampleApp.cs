@@ -49,7 +49,7 @@ public class ExampleApp : MonoBehaviour
                 //Login in automatically. Having the user login first to continue registering data is against UX principles.
                 username.text = REG_username.text;
                 password.text = REG_password.text;
-                Login();
+                Login(false);
                 addUserDataPanel.SetActive(true);
                 
                 // TODO: Handle succes scenario;
@@ -66,7 +66,7 @@ public class ExampleApp : MonoBehaviour
     }
 
     [ContextMenu("User/Login")]
-    public async void Login()
+    public async void Login(bool ToPath =true)
     {
         LOGIN_ERRORS.text = "";
         user.Email = username.text;
@@ -77,8 +77,12 @@ public class ExampleApp : MonoBehaviour
         {
             case WebRequestData<string> dataResponse:
                 Debug.Log("Login succes!");
-                LoginScreen.SetActive(false);
-                pathScreen.SetActive(true);
+                if (ToPath)
+                {
+                    LoginScreen.SetActive(false);
+                    pathScreen.SetActive(true);
+                }
+                
                 // TODO: Todo handle succes scenario.
                 break;
             case WebRequestError errorResponse:
