@@ -9,9 +9,11 @@ public class ExampleApp : MonoBehaviour
     public User user;
     public TMP_InputField username;
     public TMP_InputField password;
+    public TMP_Text LOGIN_ERRORS;
 
     public TMP_InputField REG_username;
     public TMP_InputField REG_password;
+    public TMP_Text REG_ERRORS;
 
     [Header("Dependencies")]
     public UserApiClient userApiClient;
@@ -43,16 +45,20 @@ public class ExampleApp : MonoBehaviour
         {
             case WebRequestData<string> dataResponse:
                 Debug.Log("Register succes!");
-                signUpPanel.SetActive(false);
-                LoginScreen.SetActive(true);
-                addUserDataPanel.SetActive(false);
-                pathScreen.SetActive(false);
+                REG_ERRORS.text = "";
+                //Login in automatically. Having the user login first to continue registering data is against UX principles.
+                username.text = REG_username.text;
+                password.text = REG_password.text;
+                Login();
+                addUserDataPanel.SetActive(true);
+                
                 // TODO: Handle succes scenario;
                 break;
             case WebRequestError errorResponse:
                 string errorMessage = errorResponse.ErrorMessage;
                 Debug.Log("Register error: " + errorMessage);
                 // TODO: Handle error scenario. Show the errormessage to the user.
+                REG_ERRORS.text = errorMessage;
                 break;
             default:
                 throw new NotImplementedException("No implementation for webRequestResponse of class: " + webRequestResponse.GetType());
@@ -62,6 +68,7 @@ public class ExampleApp : MonoBehaviour
     [ContextMenu("User/Login")]
     public async void Login()
     {
+        LOGIN_ERRORS.text = "";
         user.Email = username.text;
         user.Password = password.text;
         IWebRequestReponse webRequestResponse = await userApiClient.Login(user);
@@ -78,6 +85,7 @@ public class ExampleApp : MonoBehaviour
                 string errorMessage = errorResponse.ErrorMessage;
                 Debug.Log("Login error: " + errorMessage);
                 // TODO: Handle error scenario. Show the errormessage to the user.
+                LOGIN_ERRORS.text = errorMessage;
                 break;
             default:
                 throw new NotImplementedException("No implementation for webRequestResponse of class: " + webRequestResponse.GetType());
@@ -142,6 +150,7 @@ public class ExampleApp : MonoBehaviour
             case WebRequestData<UserData> successResponse:
                 Debug.Log("UserData succesvol opgeslagen!");
                 addUserDataPanel.SetActive(false);
+                signUpPanel.SetActive(false);
                 pathScreen.SetActive(true);
                 // TODO: Navigatie of succesmelding tonen
                 break;
