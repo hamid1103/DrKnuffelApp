@@ -2941,7 +2941,7 @@ GameObject:
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &376228042
 Transform:
   m_ObjectHideFlags: 0
@@ -42504,17 +42504,22 @@ MonoBehaviour:
   user:
     Email: 
     Password: 
+  userData:
     DoctorName: 
     AppointmentType: 
     AppointmentDate: 
+    UserID: 
+    Id: 
+    UserAge: 0
   LoggedIn: 0
-  BeginnerArrowIndicators: {fileID: 3434382}
   PathScreen: {fileID: 319755626}
   NextScreen: {fileID: 319755626}
   CollectionLogin: {fileID: 1137489858}
   WelcomeScreen: {fileID: 449077908}
   WelcomeScreenActual: {fileID: 1379163974314150671}
   NameInputField: {fileID: 4429936221746559385}
+  LocalSaveData:
+    CompletedSteps: 
 --- !u!4 &1896771607
 Transform:
   m_ObjectHideFlags: 0
@@ -45962,17 +45967,23 @@ MonoBehaviour:
   user:
     Email: 
     Password: 
-    DoctorName: 
-    AppointmentType: 
-    AppointmentDate: 
   username: {fileID: 685258296}
   password: {fileID: 98000187}
+  LOGIN_ERRORS: {fileID: 0}
   REG_username: {fileID: 2070912317}
   REG_password: {fileID: 1660824797}
-  doctor: {fileID: 1350418829}
-  type_treatment: {fileID: 760331002}
-  date_treatment: {fileID: 538216856}
+  REG_ERRORS: {fileID: 0}
+  gameManager: {fileID: 0}
   userApiClient: {fileID: 168725900}
+  userDataApiClient: {fileID: 0}
+  signUpPanel: {fileID: 0}
+  addUserDataPanel: {fileID: 0}
+  LoginScreen: {fileID: 0}
+  pathScreen: {fileID: 0}
+  doctorNameInput: {fileID: 0}
+  appointmentTypeInput: {fileID: 0}
+  appointmentDateInput: {fileID: 0}
+  userAgeInput: {fileID: 0}
 --- !u!4 &2137455481
 Transform:
   m_ObjectHideFlags: 0
@@ -67337,6 +67348,63 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1001 &6181681767037836613
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 786973025420903958, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_Name
+      value: Victory screen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 215.32652
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1251.5782
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.6472899
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
 --- !u!95 &6271991992252599082
 Animator:
   serializedVersion: 7
@@ -73180,3 +73248,4 @@ SceneRoots:
   - {fileID: 1446490983}
   - {fileID: 168725899}
   - {fileID: 1896771607}
+  - {fileID: 6181681767037836613}
