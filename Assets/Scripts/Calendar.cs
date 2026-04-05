@@ -18,6 +18,7 @@ namespace DefaultNamespace
 
         void Start()
         {
+            
             _button = gameObject.GetComponent<Button>();
             if (_gameManager.LoggedIn && !string.IsNullOrEmpty(_gameManager.userData.AppointmentDate))
             {
@@ -25,13 +26,10 @@ namespace DefaultNamespace
                 //No need for validation, should've been done in the registration page.
                 string input = _gameManager.userData.AppointmentDate ; // DD/MM/YY
 
-                if (DateTime.TryParseExact(input, "dd/MM/yyyy",
-                        CultureInfo.InvariantCulture,
-                        DateTimeStyles.None,
-                        out DateTime result))
+                if (DateTime.TryParse(input, out DateTime result))
                 {
-                    // If you only care about the date:
                     DateTime dateOnly = result.Date;
+                    Debug.Log($"Date: {result.Date}");
                     DateTime today = DateTime.Today.Date;
 
                     days = (dateOnly - today).TotalDays;
@@ -69,12 +67,8 @@ namespace DefaultNamespace
                 //No need for validation, should've been done in the registration page.
                 string input = _gameManager.userData.AppointmentDate ; // DD/MM/YY
 
-                if (DateTime.TryParseExact(input, "dd/MM/yyyy",
-                        CultureInfo.InvariantCulture,
-                        DateTimeStyles.None,
-                        out DateTime result))
+                if (DateTime.TryParse(input, out DateTime result))
                 {
-                    // If you only care about the date:
                     DateTime dateOnly = result.Date;
                     DateTime today = DateTime.Today.Date;
 

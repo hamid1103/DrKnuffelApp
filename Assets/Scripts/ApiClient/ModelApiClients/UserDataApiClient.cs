@@ -11,7 +11,7 @@ public class UserDataApiClient : MonoBehaviour
         string route = "/extrauserdata";
 
         IWebRequestReponse webRequestResponse = await webClient.SendGetRequest(route);
-        return ParseUserDataListResponse(webRequestResponse);
+        return ParseUserDataResponse(webRequestResponse);
     }
 
     public async Awaitable<IWebRequestReponse> CreateUserData(UserData user)

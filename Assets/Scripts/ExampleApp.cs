@@ -44,6 +44,25 @@ public class ExampleApp : MonoBehaviour
         switch (webRequestResponse)
         {
             case WebRequestData<string> dataResponse:
+                //For some reason, Login doesn't fetch userdata in webClient... Gonna do it here instead
+                IWebRequestReponse userData = await userDataApiClient.ReadUserData();
+                switch (userData)
+                {
+                    case WebRequestData<UserData> dataUser:
+                        gameManager.userData.AppointmentDate = dataUser.Data.AppointmentDate;
+                        gameManager.userData.Id = dataUser.Data.Id;
+                        gameManager.userData.UserID = dataUser.Data.UserID;
+                        break;
+                    case WebRequestData<List<UserData>> dataList:
+                        UserData data = dataList.Data[0];
+                        gameManager.userData.AppointmentDate = data.AppointmentDate;
+                        gameManager.userData.Id = data.Id;
+                        gameManager.userData.UserID = data.UserID;
+                        break;
+                    default:
+                        Debug.LogError("Unknown / Unhandled response type: "+userData);
+                        break;
+                }
                 SyncProgressData();
                 //Nothing else. Calling Refresh function on ApiClient also handles updating token and refreshtoken
                 break;
@@ -98,14 +117,32 @@ public class ExampleApp : MonoBehaviour
             case WebRequestData<string> dataResponse:
                 Debug.Log("Login succes!");
                 gameManager.LoggedIn = true;
-                if (!ToPath)
-                {
-                    //If user is registering, there is no userData object
-                    //Trying to sync save data will return 500 error.
-                    SyncProgressData();
-                }
                 if (ToPath)
                 {
+                    IWebRequestReponse userData = await userDataApiClient.ReadUserData();
+                    switch (userData)
+                    {
+                        case WebRequestData<UserData> dataUser:
+                            gameManager.userData.AppointmentDate = dataUser.Data.AppointmentDate;
+                            gameManager.userData.Id = dataUser.Data.Id;
+                            gameManager.userData.UserID = dataUser.Data.UserID;
+                            //If user is registering, there is no userData object
+                            //Trying to sync save data without UserId present will return 500 error.
+                            SyncProgressData();
+                            break;
+                        case WebRequestData<List<UserData>> dataList:
+                            UserData data = dataList.Data[0];
+                            gameManager.userData.AppointmentDate = data.AppointmentDate;
+                            gameManager.userData.Id = data.Id;
+                            gameManager.userData.UserID = data.UserID;
+                            //If user is registering, there is no userData object
+                            //Trying to sync save data without UserId present will return 500 error.
+                            SyncProgressData();
+                            break;
+                        default:
+                            Debug.LogError("Unknown / Unhandled response type: "+userData);
+                            break;
+                    }
                     LoginScreen.SetActive(false);
                     pathScreen.SetActive(true);
                 }
@@ -183,7 +220,6 @@ public class ExampleApp : MonoBehaviour
             case WebRequestData<UserData> successResponse:
                 Debug.Log("UserData succesvol opgeslagen!");
                 //After creating userData, syncing save data should be safe
-                SyncProgressData();
                 addUserDataPanel.SetActive(false);
                 signUpPanel.SetActive(false);
                 pathScreen.SetActive(true);
@@ -191,6 +227,7 @@ public class ExampleApp : MonoBehaviour
                 PlayerPrefs.SetString("UserDataId",successResponse.Data.Id);
                 Debug.Log($"UDId = {successResponse.Data.Id}");
                 gameManager.userData.Id = successResponse.Data.Id;
+                SyncProgressData();
                 break;
             case WebRequestError errorResponse:
                 Debug.LogError("Error bij opslaan UserData: " + errorResponse.ErrorMessage);
