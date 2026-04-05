@@ -475,7 +475,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -6542,6 +6542,7 @@ GameObject:
   - component: {fileID: 168725901}
   - component: {fileID: 168725900}
   - component: {fileID: 168725902}
+  - component: {fileID: 168725903}
   m_Layer: 0
   m_Name: OBJAPI
   m_TagString: Untagged
@@ -6603,6 +6604,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   webClient: {fileID: 168725901}
+--- !u!114 &168725903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168725898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34b4a8fe8fe9150a2954a772e3f9d8b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  webClient: {fileID: 168725901}
+  gameManager: {fileID: 1896771606}
 --- !u!1 &169111753
 GameObject:
   m_ObjectHideFlags: 0
@@ -8401,7 +8416,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &319755627
 Transform:
   m_ObjectHideFlags: 0
@@ -9983,7 +9998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &449077909
 Transform:
   m_ObjectHideFlags: 0
@@ -66407,12 +66422,14 @@ MonoBehaviour:
     Id: 
     UserAge: 0
   LoggedIn: 0
+  Synced: 0
   PathScreen: {fileID: 319755626}
   NextScreen: {fileID: 319755626}
   CollectionLogin: {fileID: 1137489858}
   WelcomeScreen: {fileID: 449077908}
   WelcomeScreenActual: {fileID: 1379163974314150671}
   NameInputField: {fileID: 4429936221746559385}
+  webApiClient: {fileID: 2137455480}
   LocalSaveData:
     CompletedSteps: 
 --- !u!4 &1896771607
@@ -74306,6 +74323,7 @@ MonoBehaviour:
   gameManager: {fileID: 1896771606}
   userApiClient: {fileID: 168725900}
   userDataApiClient: {fileID: 168725902}
+  userProgressApiClient: {fileID: 168725903}
   signUpPanel: {fileID: 169111753}
   addUserDataPanel: {fileID: 718429960}
   LoginScreen: {fileID: 1064322271}

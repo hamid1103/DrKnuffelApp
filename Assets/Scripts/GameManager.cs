@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public User user;
     public UserData userData;
     public bool LoggedIn = false;
+    public bool Synced = false;
     
     public GameObject PathScreen;
     public GameObject NextScreen;
@@ -19,7 +20,8 @@ public class GameManager : MonoBehaviour
     //DR bear to show up even if the gameobject is deactivated.
     public GameObject WelcomeScreenActual;
     public TMP_InputField NameInputField;
-
+    public ExampleApp webApiClient;
+    
     [SerializeField]public LocalSave LocalSaveData = new();
     
     private SignalReceiver _signalReceiver;
@@ -29,9 +31,19 @@ public class GameManager : MonoBehaviour
     {
         _signalReceiver = gameObject.GetComponent<SignalReceiver>();
         UserName = PlayerPrefs.GetString("UserName");
-        LoadSave();
         userData.AppointmentDate = PlayerPrefs.GetString("AppointmentDate");
         userData.Id = PlayerPrefs.GetString("UserDataId");
+        string refToken = PlayerPrefs.GetString("RefreshToken");
+        LoadSave();
+        if (!string.IsNullOrEmpty(refToken))
+        {
+            RefreshAndSync(refToken);
+        }
+    }
+
+    private async void RefreshAndSync(string reftoken)
+    {
+        webApiClient.Refresh(reftoken);
     }
     
     public void ShowNameInput()
@@ -87,6 +99,11 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Present steps in list: {string.Join(", ", LocalSaveData.CompletedSteps)}");
         Debug.Log($"Saving data string: {JsonUtility.ToJson(LocalSaveData)}");
         PlayerPrefs.SetString("saveData",JsonUtility.ToJson(LocalSaveData));
+        if (LoggedIn)
+        {
+            Debug.Log("Logged in, syncing.");
+            webApiClient.SyncProgressData();
+        }
     }
     
 }

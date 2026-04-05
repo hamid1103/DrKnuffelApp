@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DefaultNamespace.Models;
 using TMPro;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ public class ExampleApp : MonoBehaviour
     [Header("Dependencies")]
     public UserApiClient userApiClient;
     public UserDataApiClient userDataApiClient;
+    public UserProgressApiClient userProgressApiClient;
 
     [Header("Game objects")]
     public GameObject signUpPanel;
@@ -33,10 +35,26 @@ public class ExampleApp : MonoBehaviour
     public TMP_InputField appointmentDateInput;
     public TMP_InputField userAgeInput;
 
-
     #region Login
 
     [ContextMenu("User/Register")]
+    public async void Refresh(string token)
+    {
+        IWebRequestReponse webRequestResponse = await userApiClient.Refresh(token);
+        switch (webRequestResponse)
+        {
+            case WebRequestData<string> dataResponse:
+                SyncProgressData();
+                //Nothing else. Calling Refresh function on ApiClient also handles updating token and refreshtoken
+                break;
+            case WebRequestError requestError:
+                Debug.LogError(requestError.ErrorMessage);
+                break;
+            default:
+                throw new NotImplementedException("No implementation for webRequestResponse of class: " + webRequestResponse.GetType());
+        }
+    }
+    
     public async void Register()
     {
         user.Email = REG_username.text;
@@ -80,6 +98,12 @@ public class ExampleApp : MonoBehaviour
             case WebRequestData<string> dataResponse:
                 Debug.Log("Login succes!");
                 gameManager.LoggedIn = true;
+                if (!ToPath)
+                {
+                    //If user is registering, there is no userData object
+                    //Trying to sync save data will return 500 error.
+                    SyncProgressData();
+                }
                 if (ToPath)
                 {
                     LoginScreen.SetActive(false);
@@ -118,7 +142,7 @@ public class ExampleApp : MonoBehaviour
         UserData userData = new UserData();
         userData.DoctorName = doctorNameInput.text;
         userData.AppointmentType = appointmentTypeInput.text;
-
+        
         if (IsValidDate(appointmentDateInput.text, out string formattedDate))
         {
             gameManager.userData.AppointmentDate = appointmentDateInput.text;
@@ -158,6 +182,8 @@ public class ExampleApp : MonoBehaviour
         {
             case WebRequestData<UserData> successResponse:
                 Debug.Log("UserData succesvol opgeslagen!");
+                //After creating userData, syncing save data should be safe
+                SyncProgressData();
                 addUserDataPanel.SetActive(false);
                 signUpPanel.SetActive(false);
                 pathScreen.SetActive(true);
@@ -176,5 +202,67 @@ public class ExampleApp : MonoBehaviour
         }
     }
 
+    public async void SyncProgressData()
+    {
+        if (gameManager.LocalSaveData.CompletedSteps.Count != 0)
+        {
+            //Save data regardless of however many steps are completed locally. It won't override progress 
+            //"Thank god." - Jesus
+
+            IWebRequestReponse response = await userProgressApiClient.SaveUserProgressData();
+            switch (response)
+            {
+                case WebRequestData<string> success:
+                    Debug.Log("Opgeslagen");
+                    break;
+                case WebRequestError errorResponse:
+                    Debug.LogError("Error bij opslaan progress: " + errorResponse.ErrorMessage);
+                    break;
+                default:
+                    Debug.LogError("Onbekende response type bij UserData opslaan.");
+                    break;
+            }
+
+        }
+        
+        //Then load
+        IWebRequestReponse loadResponse = await userProgressApiClient.LoadUserProgressData();
+        switch (loadResponse)
+        {
+            case WebRequestData<string> dataResponseString:
+                string wrappedJson = "{\"items\":" + dataResponseString.Data + "}";
+
+                ProgressList progresLoaded = JsonUtility.FromJson<ProgressList>(wrappedJson);
+                
+                //Use List Count to load progress data...
+                //Really should've included index order into Progress model
+                //But too late to do anything about it rn :P
+                int index = 0;
+                if (progresLoaded.items.Count > 0)
+                {
+                    while (index < progresLoaded.items.Count)
+                    {
+                        //using complete step also prevents locally double saving
+                        gameManager.LocalSaveData.CompleteStep(index);
+                        index++;
+                    }
+                }
+                break;
+            case WebRequestError errorResponse:
+                Debug.LogError("Error bij laden progress: " + errorResponse.ErrorMessage);
+                break;
+            default:
+                Debug.LogError("Onbekende response type bij UserData laden.");
+                Debug.Log($"{loadResponse}");
+                break;
+        }
+    }
+    
     #endregion
+}
+
+[Serializable]
+public class ProgressList
+{
+    public List<Progress> items;
 }

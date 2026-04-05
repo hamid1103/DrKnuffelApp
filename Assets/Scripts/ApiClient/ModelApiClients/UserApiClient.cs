@@ -1,21 +1,10 @@
 using DefaultNamespace.Models;
 using Newtonsoft.Json;
-using UnityEditor;
 using UnityEngine;
 
 public class UserApiClient : MonoBehaviour
 {
     public WebClient webClient;
-
-    void Start()
-    {
-        string refToken = PlayerPrefs.GetString("RefreshToken");
-        if (!string.IsNullOrEmpty(refToken))
-        {
-            webClient.SetRefreshToken(refToken);
-            Refresh(refToken);
-        }
-    }
     
     public async Awaitable<IWebRequestReponse> Register(User user)
     {

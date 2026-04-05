@@ -27,6 +27,7 @@ public class WebClient : MonoBehaviour
     public async Awaitable<IWebRequestReponse> SendGetRequest(string route)
     {
         UnityWebRequest webRequest = CreateWebRequest("GET", route, "");
+        webRequest.certificateHandler = new BypassCert();
         return await SendWebRequest(webRequest);
     }
 
