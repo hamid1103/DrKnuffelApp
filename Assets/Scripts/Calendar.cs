@@ -18,7 +18,7 @@ namespace DefaultNamespace
 
         void Start()
         {
-            
+            Debug.Log($"Calendar: {PlayerPrefs.GetString("AppointmentDate")}");
             _button = gameObject.GetComponent<Button>();
             if (_gameManager.LoggedIn && !string.IsNullOrEmpty(_gameManager.userData.AppointmentDate))
             {

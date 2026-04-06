@@ -15,7 +15,8 @@ public class ExampleApp : MonoBehaviour
     public TMP_InputField REG_username;
     public TMP_InputField REG_password;
     public TMP_Text REG_ERRORS;
-
+    public TMP_Text USD_ERRORS;
+    
     public GameManager gameManager;
     
     [Header("Dependencies")]
@@ -76,7 +77,7 @@ public class ExampleApp : MonoBehaviour
     
     public async void Register()
     {
-        user.Email = REG_username.text;
+        user.Email = REG_username.text + "@arcadianflame.nl";
         user.Password = REG_password.text;
         IWebRequestReponse webRequestResponse = await userApiClient.Register(user);
 
@@ -108,7 +109,7 @@ public class ExampleApp : MonoBehaviour
     public async void Login(bool ToPath =true)
     {
         LOGIN_ERRORS.text = "";
-        user.Email = username.text;
+        user.Email = username.text + "@arcadianflame.nl";
         user.Password = password.text;
         IWebRequestReponse webRequestResponse = await userApiClient.Login(user);
 
@@ -116,6 +117,8 @@ public class ExampleApp : MonoBehaviour
         {
             case WebRequestData<string> dataResponse:
                 Debug.Log("Login succes!");
+                //incase username locally differs from the username for login
+                gameManager.UserName = username.text;
                 gameManager.LoggedIn = true;
                 if (ToPath)
                 {
@@ -176,19 +179,21 @@ public class ExampleApp : MonoBehaviour
 
     private UserData CollectUserData()
     {
+        USD_ERRORS.text = "";
         UserData userData = new UserData();
         userData.DoctorName = doctorNameInput.text;
         userData.AppointmentType = appointmentTypeInput.text;
         
         if (IsValidDate(appointmentDateInput.text, out string formattedDate))
         {
-            gameManager.userData.AppointmentDate = appointmentDateInput.text;
-            PlayerPrefs.SetString("AppointmentDate", appointmentDateInput.text);
+            gameManager.userData.AppointmentDate = formattedDate;
+            PlayerPrefs.SetString("AppointmentDate", formattedDate);
             userData.AppointmentDate = formattedDate;
         }
         else
         {
             Debug.LogError("Ongeldige datum! Gebruik formaat: dd/MM/yyyy");
+            USD_ERRORS.text = "Ongeldige datum! Gebruik formaat: dd/MM/yyyy";
             return null;
         }
 
