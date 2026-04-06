@@ -38,6 +38,7 @@ namespace DefaultNamespace
         public void ResetScriptIndex()
         {
             ScriptIndex = 0;
+            SetText(script[ScriptIndex]);
         }
 
         public void AdvanceScript(int amount = 1)
