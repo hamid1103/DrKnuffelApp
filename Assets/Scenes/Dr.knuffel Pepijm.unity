@@ -30513,7 +30513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1140248342
 Transform:
   m_ObjectHideFlags: 0
@@ -42512,12 +42512,14 @@ MonoBehaviour:
     Id: 
     UserAge: 0
   LoggedIn: 0
+  Synced: 0
   PathScreen: {fileID: 319755626}
   NextScreen: {fileID: 319755626}
   CollectionLogin: {fileID: 1137489858}
   WelcomeScreen: {fileID: 449077908}
   WelcomeScreenActual: {fileID: 1379163974314150671}
   NameInputField: {fileID: 4429936221746559385}
+  webApiClient: {fileID: 0}
   LocalSaveData:
     CompletedSteps: 
 --- !u!4 &1896771607
@@ -45973,9 +45975,11 @@ MonoBehaviour:
   REG_username: {fileID: 2070912317}
   REG_password: {fileID: 1660824797}
   REG_ERRORS: {fileID: 0}
+  USD_ERRORS: {fileID: 0}
   gameManager: {fileID: 0}
   userApiClient: {fileID: 168725900}
   userDataApiClient: {fileID: 0}
+  userProgressApiClient: {fileID: 0}
   signUpPanel: {fileID: 0}
   addUserDataPanel: {fileID: 0}
   LoginScreen: {fileID: 0}
@@ -67359,6 +67363,10 @@ PrefabInstance:
     - target: {fileID: 786973025420903958, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
       propertyPath: m_Name
       value: Victory screen
+      objectReference: {fileID: 0}
+    - target: {fileID: 786973025420903958, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1486194991080179484, guid: 73bdc7a2c99ecfb4f9a44838c75e67bb, type: 3}
       propertyPath: m_LocalPosition.x
